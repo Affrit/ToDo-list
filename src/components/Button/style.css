@@ -1,0 +1,64 @@
+.form__btn,
+.redirect-btn,
+.todo-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 30px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.todo-btn {
+  background-color: burlywood;
+}
+
+.todo-btn:hover {
+  background-color: coral;
+}
+
+.todo-btn-wrap {
+  padding-left: 5px;
+}
+
+.redirect-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.redirect-btn-wrap {
+  padding: 5px;
+}
+
+.form__btn:hover,
+.redirect-btn:hover {
+  background-color: bisque;
+}
+
+.close-btn-wrap {
+  text-align: end;
+}
+
+.close-btn {
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  padding: 0;
+  position: relative;
+}
+
+.close-btn:after {
+  content: "\d7";
+  font-size: 50px;
+  line-height: 0;
+  color: black;
+  transition: all 0.5s;
+  position: absolute;
+  top: -30px;
+  right: 0;
+}
+
+.close-btn:hover:after {
+  color: red;
+}

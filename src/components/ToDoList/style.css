@@ -1,0 +1,49 @@
+.todo-wrap {
+  width: 50%;
+  position: relative;
+}
+
+.todo-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-controls {
+  display: flex;
+  width: 250px;
+  background-color: aqua;
+}
+
+.todo__input,
+.todo__input-red {
+  width: 100%;
+  margin: 10px 0;
+  padding: 5px 0;
+  font-size: 20px;
+  outline: none;
+  background-color: inherit;
+  border: solid gray;
+  border-width: 0 0 3px 0;
+}
+
+.todo__input-red {
+  border: solid red;
+  border-width: 0 0 3px 0;
+}
+
+.todo__input-red::-webkit-input-placeholder { 
+  color: red; 
+}
+
+.todo__input-red::-moz-placeholder {
+  color: red;
+}
+
+.todo__input-wrap {
+  width: 100%;
+}
+
+.emty-message {
+  text-align: center;
+}

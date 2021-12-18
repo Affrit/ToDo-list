@@ -1,0 +1,17 @@
+.todo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav {
+  padding-top: 20px;
+}
+
+.todoWrap {
+ width: 100%;
+ display: flex;
+ justify-content: center;
+ padding-top: 150px;
+}

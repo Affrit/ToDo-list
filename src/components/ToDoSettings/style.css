@@ -1,0 +1,58 @@
+.todo-settings {
+  width: 100%;
+  background-color: cornsilk;
+  position: absolute;
+  top: 87px;
+  right: 0;
+}
+
+@media (min-width: 768px) {
+  .todo-settings {
+    width: 60%;
+  }
+}
+
+.todo-settings__inner {
+  display: flex;
+}
+
+.todo-settings__item {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.example-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.example {
+  box-sizing: border-box;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.todo-settings__input-wrap {
+  display: flex;
+  width: 100%;
+}
+
+.todo-settings__input {
+  width: 100%;
+}
