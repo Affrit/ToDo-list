@@ -1,12 +1,7 @@
-import { ITodoSettings, ITodoSavedSettings } from "../../models/ITodoSettings";
-import { ITask } from "../../models/ITask";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-
-export interface ITodoState {
-  tasks: Array<ITask>;
-  settings: ITodoSettings;
-  savedSettings: ITodoSavedSettings;
-}
+import { ITodoSavedSettings } from "../../models/ITodoSettings";
+import { ITask } from "../../models/ITask";
+import { ITodoState } from "../../models/stateTypes";
 
 const initialState: ITodoState = {
   tasks: [],
