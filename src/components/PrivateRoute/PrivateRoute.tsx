@@ -1,4 +1,4 @@
-import React, { FC, Props, ReactElement, ReactNode } from 'react';
+import React, { FC } from 'react';
 import { Navigate } from 'react-router';
 import { useAppSelector } from '../../hooks/useReduxSelector';
 

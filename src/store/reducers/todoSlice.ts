@@ -1,8 +1,9 @@
 import { ITodoSettings, ITodoSavedSettings } from "../../models/ITodoSettings";
+import { ITask } from "../../models/ITask";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface ITodoState {
-  tasks: Array<object>;
+export interface ITodoState {
+  tasks: Array<ITask>;
   settings: ITodoSettings;
   savedSettings: ITodoSavedSettings;
 }
@@ -29,16 +30,16 @@ export const todoSlice = createSlice({
   name: 'todo',
   initialState,
   reducers: {
-    setTasks(state, action: PayloadAction<Array<object>>) {
+    setTasks(state, action: PayloadAction<Array<ITask>>) {
       state.tasks = action.payload
     },
-    setSavedSettings(state, action: PayloadAction<any>) {
+    setSavedSettings(state, action: PayloadAction<ITodoSavedSettings>) {
       state.savedSettings = action.payload
     },
-    setBGColor(state, action: PayloadAction<any>) {
+    setBGColor(state, action: PayloadAction<string>) {
       state.settings.bGColor = action.payload
     },
-    setTextColor(state, action: PayloadAction<any>) {
+    setTextColor(state, action: PayloadAction<string>) {
       state.settings.textColor = action.payload
     },
   }

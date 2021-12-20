@@ -1,32 +1,36 @@
-import React, { useState }  from 'react';
+import React, { FC, useState }  from 'react';
 import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
 import { useAppSelector, useAppDispatch } from '../../hooks/useReduxSelector';
 import { todoSlice } from '../../store/reducers/todoSlice';
+import { settingsSelector } from './settingsSelector';
+import { ITodoSavedSettings } from '../../models/ITodoSettings';
 import './style.css';
 
-export const ToDoSettings = ({ onSettingsSave }) => {
+interface IProps {
+  onSettingsSave: () => void
+}
+
+export const ToDoSettings: FC<IProps> = ({ onSettingsSave }): JSX.Element => {
   const { setBGColor, setTextColor, setSavedSettings } = todoSlice.actions
-  const { savedSettings } = useAppSelector(({ todo: { savedSettings } }) => ({
-    savedSettings
-  }))
-  const [settings, setSettings] = useState({
+  const { savedSettings } = useAppSelector(settingsSelector)
+  const [settings, setSettings] = useState<ITodoSavedSettings>({
     ...savedSettings
   })
   const dispatch = useAppDispatch()
-  const textColor = `rgba(${settings.textColorR}, ${settings.textColorG}, 
+  const textColor: string = `rgba(${settings.textColorR}, ${settings.textColorG}, 
     ${settings.textColorB}, ${settings.textColorO})`
-  const bGColor = `rgba(${settings.bGColorR}, ${settings.bGColorG}, 
+  const bGColor: string = `rgba(${settings.bGColorR}, ${settings.bGColorG}, 
     ${settings.bGColorB}, ${settings.bGColorO})`
 
-  const handleChange = ({ target }) => {
+  const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
     setSettings({
       ...settings,
       [target.id]: target.value
     })
   }
 
-  const onSaveSettings = () => {
+  const onSaveSettings = (): void => {
     dispatch(setSavedSettings({
       ...settings
     }))

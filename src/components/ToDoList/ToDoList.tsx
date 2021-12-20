@@ -1,27 +1,24 @@
-import React, { useState } from 'react';
-import './style.css';
+import React, { FC, useState } from 'react';
 import { ToDoItem } from '../ToDoItem/TodoItem';
 import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { ToDoSettings } from '../ToDoSettings/ToDoSettings';
 import { useAppSelector, useAppDispatch } from '../../hooks/useReduxSelector';
 import { todoSlice } from '../../store/reducers/todoSlice';
+import { ITask } from '../../models/ITask';
+import { toDoSelector } from './toDoSelector';
+import './style.css';
 
-export const ToDoList = () => {
+export const ToDoList: FC = (): JSX.Element => {
   const { setTasks } = todoSlice.actions
-  const [value, setValue] = useState('')
-  const [isValueValid, setIsValueValid] = useState(true)
-  const [setingsToggle, setSetingsToggle] = useState(false)
+  const [value, setValue] = useState<string>('')
+  const [isValueValid, setIsValueValid] = useState<boolean>(true)
+  const [setingsToggle, setSetingsToggle] = useState<boolean>(false)
   const dispatch = useAppDispatch()
-  const { tasks } = useAppSelector(({ todo: { tasks } }) => ({
-    tasks
-  }))
-  const { bGColor, textColor } = useAppSelector(({ todo: { settings: { bGColor, textColor } } }) => ({
-    bGColor, textColor
-  }))
+  const { tasks, bGColor, textColor } = useAppSelector(toDoSelector)
 
-  const taskStatusToggle = (id) => {
-    const newTasks = tasks.map(task => {
+  const taskStatusToggle = (id: number): void => {
+    const newTasks: Array<ITask> = tasks.map((task: ITask): ITask => {
       if (task.id === id) {
         return {
           ...task,
@@ -35,9 +32,9 @@ export const ToDoList = () => {
     dispatch( setTasks(newTasks) )
   }
 
-  const onDeleteItem = (id) => {
-    const newTasks = tasks.filter(task => task.id !== id)
-    const newTasksWithUpdatedId = newTasks.map((task, idx) => {
+  const onDeleteItem = (id: number): void => {
+    const newTasks = tasks.filter((task: ITask): boolean => task.id !== id)
+    const newTasksWithUpdatedId: Array<ITask> = newTasks.map((task: ITask, idx: number): ITask => {
       return {
         ...task,
         id: idx + 1
@@ -47,10 +44,10 @@ export const ToDoList = () => {
     dispatch( setTasks(newTasksWithUpdatedId) )
   }
 
-  const onAddItem = () => {
+  const onAddItem = (): void => {
     if (!validation(value)) return
 
-    const item = {
+    const item: ITask = {
       id: tasks.length + 1,
       text: value,
       bGColor,
@@ -62,8 +59,8 @@ export const ToDoList = () => {
     setValue('')
   }
 
-  const validation = (value) => {
-    const isNotUnique = tasks.some(task => task.text === value)
+  const validation = (value: string): boolean => {
+    const isNotUnique = tasks.some((task: ITask): boolean => task.text === value)
 
     if (value.length === 0 || isNotUnique) {
       setIsValueValid(false)
@@ -74,26 +71,26 @@ export const ToDoList = () => {
     }
   }
 
-  const onKeyPress = (e) => {
+  const onKeyPress = (e: React.KeyboardEvent): void => {
     if (e.code === 'Enter') {
       onAddItem()
     }
   }
 
-  const onSettingsPushed = () => {
+  const onSettingsPushed = (e: React.MouseEvent<HTMLButtonElement>): void => {
     setSetingsToggle(!setingsToggle)
   }
 
-  const onSettingsSave = () => {
-    setSetingsToggle(false)
-  }
-
-  const handleChange = ({ target: { value } }) => {
+  const handleChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
     setValue(value)
   }
 
-  const spawnTasks = () => {
-    return tasks.map((task, idx) => {
+  const onSettingsSave = (): void => {
+    setSetingsToggle(false)
+  }
+
+  const spawnTasks = (): Array<JSX.Element> => {
+    return tasks.map((task: ITask, idx: number): JSX.Element => {
       return (
         <ToDoItem
           onDeleteItem={onDeleteItem} key={idx} id={task.id}
