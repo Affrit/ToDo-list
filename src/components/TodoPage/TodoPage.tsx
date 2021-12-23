@@ -8,7 +8,7 @@ export const TodoPage: FC = (): JSX.Element => {
   const navigate = useNavigate()
 
   const onToLoginClicked = (): void => {
-    navigate('/login')
+    navigate('/sign-in')
   }
 
   return (

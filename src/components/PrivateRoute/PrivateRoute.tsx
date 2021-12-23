@@ -9,5 +9,5 @@ interface IProps {
 
 export const PrivateRoute: FC<IProps> = ({ children }): JSX.Element => {
   const { isAuth } = useAppSelector(authSelector)
-  return isAuth ? children : <Navigate to="/login" />
+  return isAuth ? children : <Navigate to="/sign-in" />
 }
