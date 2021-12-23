@@ -1,7 +1,7 @@
 import React from 'react';
 import { store } from './store/store';
 import { Provider } from 'react-redux';
-import './App.css';
+import './App.scss';
 import { SignInPage } from './components/SignInPage/SignInPage';
 import { TodoPage } from './components/TodoPage/TodoPage';
 import { BrowserRouter } from 'react-router-dom';
