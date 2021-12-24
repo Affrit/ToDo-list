@@ -8,6 +8,12 @@ import { IUserData, IUserDataErrors } from '../../models/IUserData';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
 import { loginUser } from '../../store/reducers/authSlice';
+import { getRemeberedUser } from '../helpers/authHelpers';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import Alert from '@mui/material/Alert';
+import CloseIcon from '@mui/icons-material/Close';
+import AlertTitle from '@mui/material/AlertTitle';
 import './style.scss'
 
 const validate = (values: IUserData) => {
@@ -31,10 +37,11 @@ const validate = (values: IUserData) => {
 export const SignInPage: FC = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { authToggle } = authSlice.actions
-  const { isAuth } = useAppSelector(authSelector)
+  const { authToggle, clearError } = authSlice.actions
+  const { isAuth, error } = useAppSelector(authSelector)
   const [nameError, setNameError] = useState<boolean>(false)
   const [passwordError, setPasswordError] = useState<boolean>(false)
+  const [isAlertOpen, setAlertOpen] = useState<boolean>(false)
 
   const formik = useFormik({
     initialValues: {
@@ -43,7 +50,6 @@ export const SignInPage: FC = (): JSX.Element => {
     },
     validate,
     onSubmit: values => {
-      console.log(values)
       dispatch(loginUser(values))
     },
   })
@@ -56,26 +62,40 @@ export const SignInPage: FC = (): JSX.Element => {
     formik.errors.name, formik.errors.password,
   ])
 
-  const onLogIn = (): void => {
-    dispatch(authToggle(true))
-  }
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/')
+    }
+  }, [isAuth])
 
-  const onLogOut = (): void => {
-    dispatch(authToggle(false))
-  }
+  useEffect(() => {
+    const remeberedUser: IUserData | null = getRemeberedUser() as IUserData
+    if (remeberedUser) {
+      dispatch(loginUser(remeberedUser))
+    }
+  }, [dispatch])
 
-  const onToDoPage = (): void => {
-    navigate('/')
-  }
+  useEffect(() => {
+    if (error) {
+      setAlertOpen(true)
+    } else {
+      setAlertOpen(false)
+    }
+  }, [error])
 
-  const onSignUpClicked = ():void => {
+  const onSignUpClicked = (): void => {
     navigate('/sign-up')
+  }
+
+  const onAlertClose = (): void => {
+    dispatch(clearError())
   }
 
   return (
     <div className="sign-in">
+      <h1 className='sign-in__title'>You have to login to start using ToDo app</h1>
       <form className="form" onSubmit={formik.handleSubmit}>
-        <h1>Login form</h1>
+        <h1 className='form__title'>Login form</h1>
         <div className='form__item'>
           <TextField
             error={nameError}
@@ -122,6 +142,25 @@ export const SignInPage: FC = (): JSX.Element => {
           >
             sign-up
           </Button>
+        </div>
+
+        <div className='form__alert'>
+          <Collapse in={isAlertOpen}>
+            <Alert severity="error" action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={onAlertClose}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+              sx={{ mb: 2 }}
+            >
+              <AlertTitle>{error}</AlertTitle>
+            </Alert>
+          </Collapse>
         </div>
       </form>
     </div>

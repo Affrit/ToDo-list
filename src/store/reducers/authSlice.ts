@@ -11,16 +11,18 @@ const initialState: AuthState = {
     email: '',
     password: '',
   },
+  error: '',
 }
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async (userData: IUserData, thunkAPI) => {
-    if (!isDataCorrect(userData)) {
-      throw new Error('Incorrect username or password')
-    }
-    rememberUser(userData)
-    return userData
+  async (userData: IUserData, { rejectWithValue }) => {
+      if (!isDataCorrect(userData)) {
+        throw new Error('Incorrect username or password')
+      } else {
+        rememberUser(userData)
+        return userData
+      }
   }
 )
 
@@ -30,13 +32,23 @@ export const authSlice = createSlice({
   reducers: {
     authToggle(state, action: PayloadAction<boolean>) {
       state.isAuth = action.payload
+      if (!action.payload) {
+        state.userData = initialState.userData
+      }
+    },
+    clearError(state) {
+      state.error = initialState.error
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(loginUser.fulfilled, (state, action) => {
-      state.isAuth = true;
-      state.userData = action.payload
-    })
+    builder
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.isAuth = true;
+        state.userData = action.payload
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.error = action.error.message as string
+      })
   },
 })
 

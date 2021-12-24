@@ -1,13 +1,16 @@
 interface IAuthSelector {
   auth: {
     isAuth: boolean
+    error: string
   }
 }
 
 export const authSelector = ({
   auth: {
-    isAuth
+    isAuth,
+    error
   } }: IAuthSelector) => ({
-    isAuth
+    isAuth,
+    error
   })
   
