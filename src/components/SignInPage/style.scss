@@ -28,4 +28,15 @@
     position: absolute;
     top: calc(100% - 5px);
   }
+
+  &__link {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 20px;
+  }
+
+  &__link-text {
+    padding-right: 5px;
+  }
 }

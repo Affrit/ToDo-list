@@ -4,12 +4,13 @@ import { useAppDispatch, useAppSelector } from '../../hooks/useReduxSelector';
 import { authSlice } from '../../store/reducers/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { authSelector } from '../PrivateRoute/authSelector';
-import { IUserDataErrors } from '../../models/IUserData';
+import { IUserData, IUserDataErrors } from '../../models/IUserData';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
+import { loginUser } from '../../store/reducers/authSlice';
 import './style.scss'
 
-const validate = (values: IUserDataErrors) => {
+const validate = (values: IUserData) => {
   const errors: IUserDataErrors = {}
 
   if (!values.name) {
@@ -42,13 +43,14 @@ export const SignInPage: FC = (): JSX.Element => {
     },
     validate,
     onSubmit: values => {
-      console.log(JSON.stringify(values, null, 2))
+      console.log(values)
+      dispatch(loginUser(values))
     },
   })
 
   useEffect(() => {
-      setNameError(!!(formik.touched.name && formik.errors.name))
-      setPasswordError(!!(formik.touched.password && formik.errors.password))
+    setNameError(!!(formik.touched.name && formik.errors.name))
+    setPasswordError(!!(formik.touched.password && formik.errors.password))
   }, [
     formik.touched.name, formik.touched.password,
     formik.errors.name, formik.errors.password,
@@ -66,13 +68,12 @@ export const SignInPage: FC = (): JSX.Element => {
     navigate('/')
   }
 
+  const onSignUpClicked = ():void => {
+    navigate('/sign-up')
+  }
+
   return (
     <div className="sign-in">
-      <div className="controls">
-      <Button onClick={onLogIn} variant="contained">logIn</Button>
-      <Button onClick={onLogOut} variant="contained">logOut</Button>
-      <Button onClick={onToDoPage} variant="contained">ToDoPage</Button>
-      </div>
       <form className="form" onSubmit={formik.handleSubmit}>
         <h1>Login form</h1>
         <div className='form__item'>
@@ -109,6 +110,19 @@ export const SignInPage: FC = (): JSX.Element => {
         </div>
 
         <Button type="submit" variant="contained">Login</Button>
+        <div className='form__link'>
+          <span className='form__link-text'>
+            haven't an account yet?
+          </span>
+          <Button
+            type="button"
+            variant="contained"
+            size='small'
+            onClick={onSignUpClicked}
+          >
+            sign-up
+          </Button>
+        </div>
       </form>
     </div>
   );

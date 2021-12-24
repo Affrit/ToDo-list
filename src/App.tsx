@@ -8,6 +8,9 @@ import { TodoPage } from './components/TodoPage/TodoPage';
 import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from "react-router-dom";
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
+import { storageInitialization } from './components/helpers/storeInitialization';
+
+storageInitialization()
 
 function App() {
   return (

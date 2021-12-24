@@ -87,13 +87,12 @@ export const SignUpPage: FC = (): JSX.Element => {
     navigate('/')
   }
 
+  const onSignInClicked = ():void => {
+    navigate('/sign-in')
+  }
+
   return (
     <div className="sign-in">
-      <div className="controls">
-      <Button onClick={onLogIn} variant="contained">logIn</Button>
-      <Button onClick={onLogOut} variant="contained">logOut</Button>
-      <Button onClick={onToDoPage} variant="contained">ToDoPage</Button>
-      </div>
       <form className="form" onSubmit={formik.handleSubmit}>
         <h1>Sign-up form</h1>
         <div className='form__item'>
@@ -162,6 +161,20 @@ export const SignUpPage: FC = (): JSX.Element => {
         </div>
 
         <Button type="submit" variant="contained">Sign-up</Button>
+
+        <div className='form__link'>
+          <span className='form__link-text'>
+            already have an account?
+          </span>
+          <Button
+            type="button"
+            variant="contained"
+            size='small'
+            onClick={onSignInClicked}
+          >
+            sign-in
+          </Button>
+        </div>
       </form>
     </div>
   );

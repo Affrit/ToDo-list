@@ -1,7 +1,10 @@
+import { ITask } from "./ITask";
+
 export interface IUserData {
   name: string;
-  email: string;
   password: string;
+  email?: string;
+  tasks?: Array<ITask>;
 }
 
 export interface IUserDataErrors {
