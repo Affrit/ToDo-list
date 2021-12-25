@@ -63,32 +63,27 @@ export const SignInPage: FC = (): JSX.Element => {
   ])
 
   useEffect(() => {
-    if (isAuth) {
-      navigate('/')
-    }
-  }, [isAuth])
-
-  useEffect(() => {
     const remeberedUser: IUserData | null = getRemeberedUser() as IUserData
     if (remeberedUser) {
       dispatch(loginUser(remeberedUser))
     }
-  }, [dispatch])
-
-  useEffect(() => {
     if (error) {
       setAlertOpen(true)
-    } else {
-      setAlertOpen(false)
     }
-  }, [error])
+    if (isAuth) {
+      navigate('/')
+    }
+  }, [dispatch, error, isAuth])
 
   const onSignUpClicked = (): void => {
     navigate('/sign-up')
   }
 
   const onAlertClose = (): void => {
-    dispatch(clearError())
+    setAlertOpen(false)
+    setTimeout(() => {
+      dispatch(clearError())
+    }, 500)
   }
 
   return (

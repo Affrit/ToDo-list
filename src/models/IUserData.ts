@@ -5,6 +5,7 @@ export interface IUserData {
   password: string;
   email?: string;
   tasks?: Array<ITask>;
+  userId?: null | number;
 }
 
 export interface IUserDataErrors {

@@ -7,6 +7,7 @@ export const storageInitialization = (): void => {
       name: 'admin', 
       email: 'test@test.com', 
       password: 'admin',
+      userId: 0,
       tasks: [],
     }
     const users: string = JSON.stringify([defaultUser])

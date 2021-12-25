@@ -1,8 +1,10 @@
+import { ITask } from './../../models/ITask';
 import { IUserData } from './../../models/IUserData';
 import { AuthState } from "../../models/stateTypes";
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { isDataCorrect } from "../../components/helpers/authHelpers";
+import { getUser } from "../../components/helpers/authHelpers";
 import { rememberUser } from '../../components/helpers/authHelpers';
+import { updateUser } from '../../components/helpers/authHelpers';
 
 const initialState: AuthState = {
   isAuth: false,
@@ -10,18 +12,21 @@ const initialState: AuthState = {
     name: '',
     email: '',
     password: '',
+    userId: null,
+    tasks: [],
   },
   error: '',
 }
 
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
-  async (userData: IUserData, { rejectWithValue }) => {
-      if (!isDataCorrect(userData)) {
+  async (userData: IUserData) => {
+    const userFromStorage = getUser(userData)
+      if (!userFromStorage) {
         throw new Error('Incorrect username or password')
       } else {
-        rememberUser(userData)
-        return userData
+        rememberUser(userFromStorage)
+        return userFromStorage
       }
   }
 )
@@ -36,6 +41,10 @@ export const authSlice = createSlice({
         state.userData = initialState.userData
       }
     },
+    saveTasks(state, action: PayloadAction<Array<ITask>>) {
+      state.userData.tasks = action.payload
+      updateUser(state.userData, action.payload)
+    },
     clearError(state) {
       state.error = initialState.error
     }
@@ -43,8 +52,11 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.isAuth = true;
-        state.userData = action.payload
+        state.isAuth = true
+        state.userData.name = action.payload.name
+        state.userData.email = action.payload.email
+        state.userData.tasks = action.payload.tasks
+        state.userData.userId = action.payload.userId
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.error = action.error.message as string
