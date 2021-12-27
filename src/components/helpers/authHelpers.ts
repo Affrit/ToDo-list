@@ -21,23 +21,33 @@ export const getUser = (user: IUserData): IUserData | undefined => {
 
 export const isUserExists = (user: IUserData): boolean => {
   const allUsers: Array<IUserData> = getAllUsersFromStorage()
-  return allUsers.some((ArrUser: IUserData): boolean => ArrUser.name === user.name)
-}
-
-export const createNewUser = (user: IUserData): void => {
-  const allUsers: Array<IUserData> = getAllUsersFromStorage()
-  const newUsers: string = JSON.stringify([...allUsers, user])
-  localStorage.setItem('ToDo-users', newUsers)
+  return allUsers.some((ArrUser: IUserData): boolean => {
+    return ArrUser.name === user.name || ArrUser.email === user.email
+  })
 }
 
 export const updateUser = (user: IUserData, tasks: Array<ITask>): void => {
   const allUsers: Array<IUserData> = getAllUsersFromStorage()
-  allUsers.find((userInStorage: IUserData) => {
+  allUsers.forEach((userInStorage: IUserData) => {
     if (user.userId === userInStorage.userId) {
       userInStorage.tasks = tasks
     }
   })
   const newUsers: string = JSON.stringify(allUsers)
+  localStorage.setItem('ToDo-users', newUsers)
+}
+
+export const createNewUser = (user: IUserData): IUserData => {
+  return {
+    ...user,
+    userId: getAllUsersFromStorage().length,
+    tasks: []
+  }
+}
+
+export const addNewUser = (user: IUserData): void => {
+  const allUsers: Array<IUserData> = getAllUsersFromStorage()
+  const newUsers: string = JSON.stringify([...allUsers, user])
   localStorage.setItem('ToDo-users', newUsers)
 }
 

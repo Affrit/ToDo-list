@@ -1,5 +1,4 @@
 import { IUserData } from './../../models/IUserData';
-import { ITask } from './../../models/ITask';
 
 interface IUserSelector {
   auth: {

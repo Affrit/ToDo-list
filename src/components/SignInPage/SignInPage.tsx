@@ -14,7 +14,6 @@ import Collapse from '@mui/material/Collapse';
 import Alert from '@mui/material/Alert';
 import CloseIcon from '@mui/icons-material/Close';
 import AlertTitle from '@mui/material/AlertTitle';
-import { todoSlice } from '../../store/reducers/todoSlice';
 import './style.scss'
 
 const validate = (values: IUserData) => {
@@ -38,7 +37,7 @@ const validate = (values: IUserData) => {
 export const SignInPage: FC = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { authToggle, clearError } = authSlice.actions
+  const { clearError } = authSlice.actions
   const { isAuth, error } = useAppSelector(authSelector)
   const [nameError, setNameError] = useState<boolean>(false)
   const [passwordError, setPasswordError] = useState<boolean>(false)
@@ -74,7 +73,7 @@ export const SignInPage: FC = (): JSX.Element => {
     if (isAuth) {
       navigate('/')
     }
-  }, [dispatch, error, isAuth])
+  }, [dispatch, navigate, error, isAuth])
 
   const onSignUpClicked = (): void => {
     navigate('/sign-up')

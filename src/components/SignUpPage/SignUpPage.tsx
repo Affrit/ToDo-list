@@ -8,9 +8,15 @@ import { IUserData } from '../../models/IUserData';
 import { useFormik } from 'formik';
 import { TextField } from '@mui/material';
 import { IUserDataErrors } from '../../models/IUserData';
+import { signUpUser } from '../../store/reducers/authSlice';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import Alert from '@mui/material/Alert';
+import CloseIcon from '@mui/icons-material/Close';
+import AlertTitle from '@mui/material/AlertTitle';
 import './style.scss'
 
-const validate = (values: IUserDataErrors) => {
+const validate = (values: IUserData) => {
   const errors: IUserDataErrors = {}
 
   if (!values.name) {
@@ -45,12 +51,13 @@ const validate = (values: IUserDataErrors) => {
 export const SignUpPage: FC = (): JSX.Element => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { authToggle } = authSlice.actions
-  const { isAuth } = useAppSelector(authSelector)
+  const { clearError } = authSlice.actions
+  const { isAuth, error } = useAppSelector(authSelector)
   const [nameError, setNameError] = useState<boolean>(false)
   const [emailError, setEmailError] = useState<boolean>(false)
   const [passwordError, setPasswordError] = useState<boolean>(false)
   const [password2Error, setPassword2Error] = useState<boolean>(false)
+  const [isAlertOpen, setAlertOpen] = useState<boolean>(false)
 
   const formik = useFormik({
     initialValues: {
@@ -61,7 +68,7 @@ export const SignUpPage: FC = (): JSX.Element => {
     },
     validate,
     onSubmit: values => {
-      console.log(JSON.stringify(values, null, 2))
+      dispatch(signUpUser(values))
     },
   })
 
@@ -75,20 +82,24 @@ export const SignUpPage: FC = (): JSX.Element => {
     formik.errors.name, formik.errors.email, formik.errors.password, formik.errors.password2
   ])
 
-  const onLogIn = (): void => {
-    dispatch(authToggle(true))
-  }
-
-  const onLogOut = (): void => {
-    dispatch(authToggle(false))
-  }
-
-  const onToDoPage = (): void => {
-    navigate('/')
-  }
+  useEffect(() => {
+    if (error) {
+      setAlertOpen(true)
+    }
+    if (isAuth) {
+      navigate('/')
+    }
+  }, [navigate, error, isAuth])
 
   const onSignInClicked = ():void => {
     navigate('/sign-in')
+  }
+
+  const onAlertClose = (): void => {
+    setAlertOpen(false)
+    setTimeout(() => {
+      dispatch(clearError())
+    }, 500)
   }
 
   return (
@@ -174,6 +185,25 @@ export const SignUpPage: FC = (): JSX.Element => {
           >
             sign-in
           </Button>
+        </div>
+
+        <div className='form__alert'>
+          <Collapse in={isAlertOpen}>
+            <Alert severity="error" action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={onAlertClose}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+              sx={{ mb: 2 }}
+            >
+              <AlertTitle>{error}</AlertTitle>
+            </Alert>
+          </Collapse>
         </div>
       </form>
     </div>
