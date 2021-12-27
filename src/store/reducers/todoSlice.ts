@@ -37,6 +37,11 @@ export const todoSlice = createSlice({
     setTextColor(state, action: PayloadAction<string>) {
       state.settings.textColor = action.payload
     },
+    setResetToDo(state) {
+      state.savedSettings = initialState.savedSettings
+      state.settings = initialState.settings
+      state.tasks = initialState.tasks
+    },
   }
 })
 

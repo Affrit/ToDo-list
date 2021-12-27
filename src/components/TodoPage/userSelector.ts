@@ -1,17 +1,20 @@
-interface IuserSelector {
+import { IUserData } from './../../models/IUserData';
+import { ITask } from './../../models/ITask';
+
+interface IUserSelector {
   auth: {
-    userData: {
-      name: string
-    }
+    userData: IUserData
   }
 }
 
 export const userSelector = ({
   auth: {
     userData: {
-      name
+      name,
+      tasks
     }
   }
-}: IuserSelector) => ({
-  name
+}: IUserSelector) => ({
+  name,
+  tasks
 })

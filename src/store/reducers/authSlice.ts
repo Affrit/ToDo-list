@@ -11,7 +11,6 @@ const initialState: AuthState = {
   userData: {
     name: '',
     email: '',
-    password: '',
     userId: null,
     tasks: [],
   },
