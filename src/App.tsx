@@ -9,6 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Routes, Route } from "react-router-dom";
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import { storageInitialization } from './components/helpers/storeInitialization';
+import { Layout } from './components/Layout/Layout'
 
 storageInitialization()
 
@@ -16,7 +17,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div className="app">
+        <Layout>
           <Routes>
             <Route path='/sign-up' element={<SignUpPage />} />
             <Route path='/sign-in' element={<SignInPage />} />
@@ -26,7 +27,7 @@ function App() {
               </PrivateRoute>
             } />
           </Routes>
-        </div>
+        </Layout>
       </BrowserRouter>
     </Provider>
   )

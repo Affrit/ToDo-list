@@ -7,7 +7,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/useReduxSelector';
 import { todoSlice } from '../../store/reducers/todoSlice';
 import { ITask } from '../../models/ITask';
 import { toDoSelector } from './toDoSelector';
-import './style.css';
+import './style.scss';
 
 export const ToDoList: FC = (): JSX.Element => {
   const { setTasks } = todoSlice.actions
@@ -119,8 +119,8 @@ export const ToDoList: FC = (): JSX.Element => {
       </div>
       <div className='todo-body'>
         {tasks.length > 0 ? spawnTasks() :
-          <div className='emty-message'>
-            <span>You haven't any tasks yet!</span>
+          <div className='message-block'>
+            <span className='empty-message'>You haven't any tasks yet!</span>
           </div>}
       </div>
       {setingsToggle && <ToDoSettings onSettingsSave={onSettingsSave} />}

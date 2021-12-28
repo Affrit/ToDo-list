@@ -25,6 +25,7 @@
   background-color: inherit;
   border: solid gray;
   border-width: 0 0 3px 0;
+  color: white;
 }
 
 .todo__input-red {
@@ -44,6 +45,7 @@
   width: 100%;
 }
 
-.emty-message {
+.message-block {
   text-align: center;
+  margin-top: 20px;
 }

@@ -110,7 +110,7 @@ export const SignUpPage: FC = (): JSX.Element => {
           <TextField
             error={nameError}
             fullWidth={true}
-            //autoComplete={'off'}
+            autoComplete={'off'}
             //size={'small'}
             helperText={nameError && formik.errors.name}
             id="name"
@@ -127,6 +127,7 @@ export const SignUpPage: FC = (): JSX.Element => {
           <TextField
             error={emailError}
             fullWidth={true}
+            autoComplete={'off'}
             helperText={emailError && formik.errors.email}
             id="email"
             name="email"

@@ -95,7 +95,7 @@ export const SignInPage: FC = (): JSX.Element => {
           <TextField
             error={nameError}
             fullWidth={true}
-            //autoComplete={'off'}
+            autoComplete={'off'}
             //size={'small'}
             helperText={nameError && formik.errors.name}
             id="name"

@@ -1,7 +1,7 @@
 import { ITask } from "./ITask";
 
 export interface IUserData {
-  name: string;
+  name?: string;
   password?: string;
   password2?: string;
   email?: string;
@@ -9,9 +9,4 @@ export interface IUserData {
   userId?: null | number;
 }
 
-export interface IUserDataErrors {
-  name?: string;
-  email?: string;
-  password?: string;
-  password2?: string;
-}
+export type IUserDataErrors = Omit<IUserData, 'tasks' | 'userId'>

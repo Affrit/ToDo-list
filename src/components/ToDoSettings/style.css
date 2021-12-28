@@ -4,6 +4,7 @@
   position: absolute;
   top: 87px;
   right: 0;
+  background: #1b5797;
 }
 
 @media (min-width: 768px) {
